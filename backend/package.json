@@ -17,6 +17,9 @@
     "morgan": "^1.10.0",
     "nodemon": "^1.19.4"
   },
+  "scripts": {
+    "serve": "nodemon server.js"
+  },
   "engines": {
     "node": "13.x"
   }

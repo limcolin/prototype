@@ -72,7 +72,7 @@ const Booking = ({ booking, editBooking, updateBooking, saveUpdate, hoverBooking
         </Route>
         <Route exact path="/">
           <div className="BookingRowInnerRight" style={{ paddingLeft: '20px' }}>
-          
+
             <Icon name='bookmark' style={{ color: '#324354' }} />
 
           </div>

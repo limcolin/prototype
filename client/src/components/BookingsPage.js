@@ -1,11 +1,11 @@
 import React from "react";
 import 'semantic-ui-css/semantic.min.css';
-import { Header, Menu, Input, Icon } from 'semantic-ui-react';
+import { Header, Menu, Input, Icon, Table } from 'semantic-ui-react';
 import Booking from './Booking';
 import Destination from './Destination'
 
 
-const BookingsPage = ({ anchorages, bookings, bookingFilter, setBookingFilter, editBooking, updateBooking, saveUpdate, hoverBooking, hoveredBooking }) => {
+const BookingsPage = ({ arrivals, anchorages, bookings, bookingFilter, setBookingFilter, editBooking, updateBooking, saveUpdate, hoverBooking, hoveredBooking }) => {
 
   const handleFilterClick = (e, { name }) => {
     setBookingFilter(name)
@@ -13,12 +13,9 @@ const BookingsPage = ({ anchorages, bookings, bookingFilter, setBookingFilter, e
 
   return (
     <>
-      <Header size='huge' as='h1' dividing style={{ fontWeight: 700 }}>
-        Bookings
-        <Header.Subheader>
-          Track and manage your bookings.
-        </Header.Subheader>
-      </Header>
+      <div className="contentInnerTop" style={{ width: '100%', borderRight: '1px solid rgba(34, 36, 38, 0.15)' }}>
+        
+      </div>
       <div className="contentInnerWrapper" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className="contentInnerLeft" style={{ width: '10%', borderRight: '1px solid rgba(34, 36, 38, 0.15)' }}>
           <Menu fluid vertical borderless style={{ border: 'none', boxShadow: 'none' }}>
@@ -37,7 +34,14 @@ const BookingsPage = ({ anchorages, bookings, bookingFilter, setBookingFilter, e
           </Menu>
         </div>
         <div className="contentInnerCenter" style={{ width: 'calc(89% - 450px)' }}>
-          <Header.Subheader style={{ textAlign: 'right' }}>{bookings.length} {bookingFilter} bookings in progress.</Header.Subheader>
+          <Header size='huge' as='h1' dividing style={{ fontWeight: 700 }}>
+            Bookings
+            <Header.Subheader>
+              Track and manage your bookings.
+              <span style={{ float: 'right' }}>{bookings.length} {bookingFilter} bookings in progress.</span>
+            </Header.Subheader>
+          </Header>
+
           {bookings.map(booking => {
             return (
               <>

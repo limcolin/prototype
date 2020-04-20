@@ -394,6 +394,7 @@ const App = () => {
               hoverBooking={hoverBooking}
               hoveredBooking={hoveredBooking}
               anchorages={anchorages}
+              arrivals={arrivals}
             />
           </Route>
           <Route path="/">

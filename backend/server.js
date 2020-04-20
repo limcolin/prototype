@@ -15,8 +15,7 @@ const seedAnchorages = require("./data/seedAnchorages");
 const https = require('https');
 const axios = require('axios');
 
-const PORT = process.env.PORT || 3000
-const API_PORT = 3001;
+const PORT = process.env.PORT || 3001
 const app = express();
 const router = express.Router();
 
@@ -287,7 +286,7 @@ function getPltArrivals() {
   }
   return axios(options)
 }
-router.get("/seedArrivals", (req, res) => {
+if (process.env.NODE_ENV == 'production') {
   setInterval(() => {
     axios.all([getMswArrivals(), getPltArrivals()])
     .then(axios.spread((mswArrivals, pltArrivals) => {
@@ -344,8 +343,7 @@ router.get("/seedArrivals", (req, res) => {
       console.log(error)
     });
   }, 30000);
-  return res.json({ success: true, data: [] });
-});
+}
 
 app.use("/api", router);
 
