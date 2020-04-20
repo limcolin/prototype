@@ -58,6 +58,7 @@ const BookingsOverview = ({
         return (
           <Booking
             key={booking.id}
+            arrivals={arrivals}
             booking={booking}
             hoverBooking={hoverBooking}
           />

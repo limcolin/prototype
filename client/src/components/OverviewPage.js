@@ -55,7 +55,7 @@ const OverviewPage = ({
           />
         </div>
         <div className="contentInnerRight" style={{ margin: '60px', flexGrow: 1, flexShrink: 0, width: '450px' }}>
-          <Destination bookings={bookings} hoveredBooking={hoveredBooking} anchorages={anchorages} />
+          <Destination arrivals={arrivals} bookings={bookings} hoveredBooking={hoveredBooking} anchorages={anchorages} />
         </div>
       </div>
     </>

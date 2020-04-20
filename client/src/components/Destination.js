@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flag, Icon, Header, Label } from 'semantic-ui-react';
 
-const Destination = ({ anchorages, bookings, hoveredBooking }) => {
+const Destination = ({ arrivals, anchorages, bookings, hoveredBooking }) => {
   const terminals = [
     {
       "id": 0,
@@ -38,7 +38,7 @@ const Destination = ({ anchorages, bookings, hoveredBooking }) => {
   const booking = getBooking()
 
   const getTerminalDetails = () => {
-    if(hoveredBooking !== null && booking.terminalName) {
+    if(booking && booking.terminalName) {
       return terminals.find(terminal => terminal.name === booking.terminalName)
     }
     return {}
@@ -46,6 +46,16 @@ const Destination = ({ anchorages, bookings, hoveredBooking }) => {
   const terminalDetails = getTerminalDetails()
 
   const renderDestinations = () => {
+    const departedTerminal = arrivals.find(arrival =>
+      arrival.terminalName.includes(booking.terminalName) &&
+      arrival.lighterName.includes(booking.lighterName) &&
+      arrival.lighterName.includes(booking.lighterId) &&
+      arrival.lighterCompany.includes(booking.lighterCompany) &&
+      arrival.craneNumber.includes(booking.craneNumber) &&
+      arrival.arrivedTime.includes(booking.arrivedDate) &&
+      arrival.arrivedTime.includes(booking.arrivedTime)
+    ) === undefined
+
     return (
       <>
         <div className="DestinationRowWrapper" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -53,6 +63,9 @@ const Destination = ({ anchorages, bookings, hoveredBooking }) => {
             <div className="destination-header">
               <Header><Icon style={{ marginRight: '40px', marginLeft: '-22px', display: 'inline-block', background: '#324354', color: 'white', fontSize: '20px', paddingTop: '10px', paddingBottom: '10px', height: '40px', width: '40px' }} name="warehouse" />
                 {booking.terminalName} ({booking.craneNumber})
+                {departedTerminal &&
+                  <Label style={{ marginLeft: '15px' }} color="green" pointing="left"><Icon name="ship" />DEPARTED</Label>
+                }
                 <Header.Subheader style={{ paddingLeft: '59px' }}>
                 {terminalDetails.address}
                 </Header.Subheader>
@@ -62,6 +75,7 @@ const Destination = ({ anchorages, bookings, hoveredBooking }) => {
               </div>
             </div>
             <div className="destinationBody" style={{ marginRight: '59px', padding: '25px', marginTop: '30px', marginBottom: '70px', background: 'white', marginLeft: '59px', border: '2px solid rgba(34, 36, 38, 0.15)' }}>
+
               <Icon name="ship" /> {booking.lighterName} <Icon style={{ marginLeft: '15px' }} name="tag" />{booking.lighterId} <br />
               {booking.lighterCompany} <br />
               Arrived: {booking.arrivedDate} {booking.arrivedTime} <br />
@@ -110,7 +124,7 @@ const Destination = ({ anchorages, bookings, hoveredBooking }) => {
 
   return (
     <div style={{ borderLeft: '5px solid #324354', height: '100%', position: 'fixed' }}>
-      { booking && booking.destinations && terminalDetails &&
+      { booking && booking.destinations && terminalDetails && arrivals &&
         renderDestinations()
       }
     </div>

@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import BookingDetails from './BookingDetails'
 import CompleteForm from './CompleteForm'
 
-const Booking = ({ booking, editBooking, updateBooking, saveUpdate, hoverBooking }) => {
+const Booking = ({ arrivals, booking, editBooking, updateBooking, saveUpdate, hoverBooking }) => {
 
   /*const sendIdToDelete = () => {
     deleteRequest(request.id);
@@ -34,16 +34,24 @@ const Booking = ({ booking, editBooking, updateBooking, saveUpdate, hoverBooking
     hoverBooking(null);
   }
 
+  const departedTerminal = arrivals.find(arrival =>
+    arrival.terminalName.includes(booking.terminalName) &&
+    arrival.lighterName.includes(booking.lighterName) &&
+    arrival.lighterName.includes(booking.lighterId) &&
+    arrival.lighterCompany.includes(booking.lighterCompany) &&
+    arrival.craneNumber.includes(booking.craneNumber) &&
+    arrival.arrivedTime.includes(booking.arrivedDate) &&
+    arrival.arrivedTime.includes(booking.arrivedTime)
+  ) === undefined
+
   return (
     <>
       <div onMouseEnter={toggleHover} className="BookingRowWrapper" style={{ display: 'flex', borderBottom: '1px solid rgba(34, 36, 38, 0.15)', padding: '25px 0 50px 0' }}>
         <div className="BookingRowInnerleft" style={{ minWidth: '230px', textAlign: 'right', paddingRight: '20px' }}>
-
             <BookingDetails booking={booking} />
-
         </div>
         <div className="BookingRowInnerCenter" style={{ flexGrow: 1, minWidth: '350px' }}>
-          <Progress size='tiny' color='black' total={20} active value={Math.ceil(Math.random() * 20)}>
+          <Progress size='tiny' color='black' total={3} active value={booking.completed ? 3 : (departedTerminal ? 1 : 0)} success={booking.completed}>
             <div style={{ float: 'left', textAlign: 'left' }}>
               <span style={{ fontWeight: 700 }}><Icon name="dolly" />{booking.terminalName} <br /></span>
               Crane Number: {booking.craneNumber} <br />

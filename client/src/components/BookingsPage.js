@@ -14,7 +14,7 @@ const BookingsPage = ({ arrivals, anchorages, bookings, bookingFilter, setBookin
   return (
     <>
       <div className="contentInnerTop" style={{ width: '100%', borderRight: '1px solid rgba(34, 36, 38, 0.15)' }}>
-        
+
       </div>
       <div className="contentInnerWrapper" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className="contentInnerLeft" style={{ width: '10%', borderRight: '1px solid rgba(34, 36, 38, 0.15)' }}>
@@ -35,10 +35,10 @@ const BookingsPage = ({ arrivals, anchorages, bookings, bookingFilter, setBookin
         </div>
         <div className="contentInnerCenter" style={{ width: 'calc(89% - 450px)' }}>
           <Header size='huge' as='h1' dividing style={{ fontWeight: 700 }}>
-            Bookings
+            Requests
             <Header.Subheader>
-              Track and manage your bookings.
-              <span style={{ float: 'right' }}>{bookings.length} {bookingFilter} bookings in progress.</span>
+              Track and manage your requests.
+              <span style={{ float: 'right' }}>{bookings.length} requests in progress.</span>
             </Header.Subheader>
           </Header>
 
@@ -46,14 +46,14 @@ const BookingsPage = ({ arrivals, anchorages, bookings, bookingFilter, setBookin
             return (
               <>
                 { booking &&
-                  <Booking key={booking.id} booking={booking} editBooking={editBooking} updateBooking={updateBooking} saveUpdate={saveUpdate} hoverBooking={hoverBooking} />
+                  <Booking arrivals={arrivals} key={booking.id} booking={booking} editBooking={editBooking} updateBooking={updateBooking} saveUpdate={saveUpdate} hoverBooking={hoverBooking} />
                 }
               </>
             )
           })}
         </div>
         <div className="contentInnerRight" style={{ margin: '60px', flexGrow: 1, flexShrink: 0, width: '450px' }}>
-          <Destination bookings={bookings} hoveredBooking={hoveredBooking} anchorages={anchorages} />
+          <Destination arrivals={arrivals} bookings={bookings} hoveredBooking={hoveredBooking} anchorages={anchorages} />
         </div>
       </div>
     </>
