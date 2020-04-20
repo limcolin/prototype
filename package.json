@@ -1,0 +1,17 @@
+{
+  "name": "jelofullstack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "dev": "concurrently \"cd backend && nodemon server.js\" \"cd client && set BROWSER=none&&npm start\"",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client && npm install --prefix backend"
+  },
+  "dependencies": {
+    "concurrently": "^4.0.1"
+  },
+  "engines": {
+    "node": "13.x"
+  }
+}
