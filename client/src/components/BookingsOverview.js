@@ -33,22 +33,24 @@ const BookingsOverview = ({
 
   return (
     <div style={{ padding: '40px', background: 'white' }}>
-    <div style={{ textAlign: 'right'}}><BookingForm
-      arrivals={arrivals}
-      searchResults={searchResults} setSearchResults={setSearchResults}
-      searchValue={searchValue} setSearchValue={setSearchValue}
-      loading={loading} setLoading={setLoading}
-      setSelectedDelivery={setSelectedDelivery}
-      hoverDelivery={hoverDelivery}
-      hoveredDelivery={hoveredDelivery}
-      step={step} setStep={setStep}
-      deliveries={deliveries}
-      newBooking={newBooking} dispatch={dispatch}
-      postBooking={postBooking}
-      searchVessel={searchVessel}
-      vesselData={vesselData} setVesselData={setVesselData}
-      anchorages={anchorages}
-    /></div>
+      <div style={{ textAlign: 'right'}}>
+        <BookingForm
+          arrivals={arrivals}
+          searchResults={searchResults} setSearchResults={setSearchResults}
+          searchValue={searchValue} setSearchValue={setSearchValue}
+          loading={loading} setLoading={setLoading}
+          setSelectedDelivery={setSelectedDelivery}
+          hoverDelivery={hoverDelivery}
+          hoveredDelivery={hoveredDelivery}
+          step={step} setStep={setStep}
+          deliveries={deliveries}
+          newBooking={newBooking} dispatch={dispatch}
+          postBooking={postBooking}
+          searchVessel={searchVessel}
+          vesselData={vesselData} setVesselData={setVesselData}
+          anchorages={anchorages}
+        />
+      </div>
       <Header as='h4' dividing size='medium' style={{ fontWeight: 700 }}>
         Priority + Bookmarked Bookings
         <Link to='/bookings' style={{ fontSize: '14px', color: 'grey', float: 'right', textDecoration: 'underline' }}>See All</Link>

@@ -4,6 +4,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { Header } from 'semantic-ui-react';
 import { Switch, Route } from "react-router-dom";
 import OverviewPage from './components/OverviewPage'
+import ArrivalsPage from './components/ArrivalsPage'
 import BookingsPage from './components/BookingsPage'
 import BookingForm from './components/BookingForm'
 import Topbar from './components/Topbar'
@@ -78,6 +79,7 @@ const App = () => {
     getBookings();
     getAnchorages();
     getArrivals()
+    getAllArrivals()
 
     // TODO: USE SOCKET CONNECTION TO NOTIFY WHEN MESSAGES ARRIVE
     const interval = setInterval(() => {
@@ -96,9 +98,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [arrivals, setArrivals] = useState([]);
-  useEffect(() => {
-    console.log(arrivals)
-  }, [arrivals])
+  const [allArrivals, setAllArrivals] = useState([]);
   const [deliveries, setDeliveries] = useState([]);
   const [filteredDeliveries, setFilteredDeliveries] = useState([]);
   const [newBooking, dispatch] = useReducer(
@@ -234,6 +234,14 @@ const App = () => {
       .then(data => data.json())
       .then(res => {
         setArrivals(res.data)
+      });
+  };
+
+  const getAllArrivals = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/getAllArrivals`)
+      .then(data => data.json())
+      .then(res => {
+        setAllArrivals(res.data)
       });
   };
 
@@ -382,7 +390,6 @@ const App = () => {
         <SideMenu />
       </div>
       <div className="contentWrapper" style={{ width: "calc(100% - 90px)", marginTop: '70px', background: '#f8f9fd' }}>
-
         <Switch>
           <Route path="/bookings">
             <BookingsPage
@@ -395,6 +402,23 @@ const App = () => {
               hoveredBooking={hoveredBooking}
               anchorages={anchorages}
               arrivals={arrivals}
+              searchResults={searchResults} setSearchResults={setSearchResults}
+              searchValue={searchValue} setSearchValue={setSearchValue}
+              loading={loading} setLoading={setLoading}
+              setSelectedDelivery={setSelectedDelivery}
+              hoverDelivery={hoverDelivery}
+              hoveredDelivery={hoveredDelivery}
+              step={step} setStep={setStep}
+              deliveries={deliveries}
+              newBooking={newBooking} dispatch={dispatch}
+              postBooking={postBooking}
+              searchVessel={searchVessel}
+              vesselData={vesselData} setVesselData={setVesselData}
+            />
+          </Route>
+          <Route path="/arrivals">
+            <ArrivalsPage
+              arrivals={arrivals} allArrivals={allArrivals}
             />
           </Route>
           <Route path="/">

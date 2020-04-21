@@ -13,7 +13,7 @@ const SideMenu = () => {
       fixed='left'
       style={{
         width: '90px',
-        marginTop: '70px',    
+        marginTop: '70px',
       }}
     >
       <Menu.Item as={Link} to='/'>
@@ -23,6 +23,10 @@ const SideMenu = () => {
       <Menu.Item as={Link} to='/bookings'>
         <Icon name='pallet' />
         Requests
+      </Menu.Item>
+      <Menu.Item as={Link} to='/arrivals'>
+        <Icon name='ship' />
+        Arrivals
       </Menu.Item>
       <Menu.Item disabled as='a'>
         <Icon name='shipping fast' />

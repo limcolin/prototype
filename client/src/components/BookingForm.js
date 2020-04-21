@@ -61,13 +61,13 @@ const BookingForm = ({
   }
 
   return (
-    <Portal closeOnTriggerClick openOnTriggerClick trigger={<Button style={{ borderRadius: 0, background: "#324354" }} color='black' size='large'>Start a booking</Button>}>
+    <Portal closeOnTriggerClick openOnTriggerClick trigger={<Button style={{ borderRadius: 0, background: "#324354" }} color='black' size='large'>Start a request</Button>}>
       <Segment style={{ border: '1px solid #324354', maxHeight: '90vh', overflowY: 'scroll', boxShadow: '3px 3px 7px 3px rgba(34,36,38,.15)', borderRadius: '8px', padding: 0, left: '50%', position: 'fixed', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 1000 }}>
         <Step.Group style={{ marginBottom: 0 }} size="mini" fluid ordered>
           <Step onClick={stepOne} active={step === 1}>
             <Step.Content>
-              <Step.Title>New Booking</Step.Title>
-              <Step.Description>Create A New Delivery Booking</Step.Description>
+              <Step.Title>New Request</Step.Title>
+              <Step.Description>Create A New Delivery Request</Step.Description>
             </Step.Content>
           </Step>
           <Step onClick={stepTwo} active={step === 2}>

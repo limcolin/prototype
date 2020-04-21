@@ -47,7 +47,7 @@ const Booking = ({ arrivals, booking, editBooking, updateBooking, saveUpdate, ho
   return (
     <>
       <div onMouseEnter={toggleHover} className="BookingRowWrapper" style={{ display: 'flex', borderBottom: '1px solid rgba(34, 36, 38, 0.15)', padding: '25px 0 50px 0' }}>
-        <div className="BookingRowInnerleft" style={{ minWidth: '230px', textAlign: 'right', paddingRight: '20px' }}>
+        <div className="BookingRowInnerleft" style={{ width: '300px', textAlign: 'right', paddingRight: '20px' }}>
             <BookingDetails booking={booking} />
         </div>
         <div className="BookingRowInnerCenter" style={{ flexGrow: 1, minWidth: '350px' }}>

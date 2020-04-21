@@ -63,6 +63,12 @@ router.get("/getArrivals", (req, res) => {
       return res.json({ success: false, error: error });
     });
 });
+router.get("/getAllArrivals", (req, res) => {
+  Arrival.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
 
 router.get("/getBookings", (req, res) => {
   Booking.find((err, data) => {
