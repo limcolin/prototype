@@ -4,6 +4,7 @@ import { Header, Menu, Input } from 'semantic-ui-react';
 import MapContainerOverview from './MapContainerOverview';
 import BookingsOverview from './BookingsOverview'
 import Destination from './Destination'
+import ArrivalsTable from './ArrivalsTable'
 
 const OverviewPage = ({
   arrivals,

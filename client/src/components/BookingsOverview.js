@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Booking from './Booking';
 import BookingDetails from './BookingDetails'
 import BookingForm from './BookingForm'
+import ArrivalsTable from './ArrivalsTable'
 
 const BookingsOverview = ({
   arrivals,
@@ -66,6 +67,11 @@ const BookingsOverview = ({
           />
         )
       })}
+      <Header as='h4' dividing size='medium' style={{ fontWeight: 700 }}>
+        Current Arrivals
+        <Header.Subheader> </Header.Subheader>
+      </Header>
+      <ArrivalsTable arrivals={arrivals} />
     </div>
   )
 }

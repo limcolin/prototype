@@ -424,7 +424,7 @@ const App = () => {
           <Route path="/">
             <OverviewPage
               arrivals={arrivals}
-              bookings={bookings}
+              bookings={bookings.slice(0, 2)}
               hoverBooking={hoverBooking}
               hoveredBooking={hoveredBooking} setHoveredBooking={setHoveredBooking}
               anchorages={anchorages}
