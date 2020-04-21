@@ -94,7 +94,7 @@ const Destination = ({ arrivals, anchorages, bookings, hoveredBooking }) => {
                         <Header><Icon style={{ marginRight: '40px', marginLeft: '-22px', display: 'inline-block', background: '#324354', color: 'white', fontSize: '20px', paddingTop: '10px', paddingBottom: '10px', height: '40px', width: '40px' }} name="anchor" />
                           {anchorageDetails.name} ({anchorageDetails.code})
                           {booking.completed &&
-                            <Label style={{ marginLeft: '15px' }} color="green" pointing="left"><Icon name="check cirle" />Completed</Label>
+                            <Label style={{ marginLeft: '15px' }} color="green" pointing="left"><Icon name="check circle" />Completed</Label>
                           }
                           <Header.Subheader style={{ paddingLeft: '59px' }}>
                           {anchorageDetails.description}
