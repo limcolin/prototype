@@ -59,7 +59,7 @@ const NewBookingStep2 = ({
             <Card.Group style={{ padding: '10px', margin: 0, background: '#fcfcfc' }} itemsPerRow={1}>
               <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}><h4>Available Crafts</h4><a style={{ float: 'right' }}>View All</a></div>
               {
-                arrivals.map((arrival, index) => {
+                arrivals.slice(0, 13).map((arrival, index) => {
                   return <Arrival dispatch={dispatch} arrival={arrival} anchorages={anchorages} setSelectedDelivery={setSelectedDelivery} key={deliveries[index].id} delivery={deliveries[index]} hoverDelivery={hoverDelivery} hoveredDelivery={hoveredDelivery} />
                 })
               }
