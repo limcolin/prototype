@@ -1,5 +1,5 @@
 import React from "react";
-import { Tab, Button, Icon, Card } from 'semantic-ui-react';
+import { Tab, Button, Icon, Card, Message } from 'semantic-ui-react';
 import BerthSchedule from './BerthSchedule'
 import MapContainer from './MapContainer';
 import Arrival from './Arrival'
@@ -14,7 +14,8 @@ const NewBookingStep2 = ({
   deliveries,
   hoverDelivery,
   hoveredDelivery,
-  newBooking
+  newBooking,
+  loading
 }) => {
 
   const groupedDeliveries = deliveries.reduce((result, delivery) => {
@@ -67,7 +68,7 @@ const NewBookingStep2 = ({
           </Tab.Pane>
           <div style={{ padding: '20px' }} className="buttonPanel">
             <Button style={{ width: '56px', marginRight: '10px' }} onClick={prevStep} ><Icon name='angle left' /></Button>
-            <Button style={{ width: 'calc(100% - 66px)', marginRight: 0 }} onClick={confirmBooking} positive content="Book Lighter" />
+            <Button loading={loading} style={{ width: 'calc(100% - 66px)', marginRight: 0 }} onClick={confirmBooking} positive content="Book Lighter" />
           </div>
         </>
       )

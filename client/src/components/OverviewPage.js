@@ -16,8 +16,8 @@ const OverviewPage = ({
   setSearchResults,
   searchValue,
   setSearchValue,
-  loading,
-  setLoading,
+  loading, setLoading,
+  loaderResult, setLoaderResult,
   setSelectedDelivery,
   hoverDelivery,
   hoveredDelivery,
@@ -43,6 +43,7 @@ const OverviewPage = ({
             searchResults={searchResults} setSearchResults={setSearchResults}
             searchValue={searchValue} setSearchValue={setSearchValue}
             loading={loading} setLoading={setLoading}
+            loaderResult={loaderResult} setLoaderResult={setLoaderResult}
             setSelectedDelivery={setSelectedDelivery}
             hoverDelivery={hoverDelivery}
             hoveredDelivery={hoveredDelivery}

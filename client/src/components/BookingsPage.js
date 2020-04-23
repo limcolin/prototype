@@ -18,6 +18,7 @@ const BookingsPage = ({
   searchResults, setSearchResults,
   searchValue, setSearchValue,
   loading, setLoading,
+  loaderResult, setLoaderResult,
   setSelectedDelivery,
   hoverDelivery,
   hoveredDelivery,
@@ -47,6 +48,7 @@ const BookingsPage = ({
                 searchResults={searchResults} setSearchResults={setSearchResults}
                 searchValue={searchValue} setSearchValue={setSearchValue}
                 loading={loading} setLoading={setLoading}
+                loaderResult={loaderResult} setLoaderResult={setLoaderResult}
                 setSelectedDelivery={setSelectedDelivery}
                 hoverDelivery={hoverDelivery}
                 hoveredDelivery={hoveredDelivery}

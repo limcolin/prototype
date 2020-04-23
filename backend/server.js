@@ -135,7 +135,7 @@ router.post("/postBooking", (req, res) => {
   booking.destinations = destinations;
   booking.save(err => {
     if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
+    return res.json({ success: true, booking: booking });
   });
 });
 

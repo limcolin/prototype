@@ -39,6 +39,7 @@ const CompleteForm = ({ booking, editBooking, updateBooking, saveUpdate }) => {
         </Form>
 
       </Segment>
+
     </Portal>
   )
 }

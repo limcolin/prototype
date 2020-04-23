@@ -112,7 +112,6 @@ const App = () => {
       lighterCompany: "",
       arrivedDate: "",
       arrivedTime: "",
-      anchorage: null,
       totalPallets: null,
       loadTime: null,
       completed: false,
@@ -253,8 +252,15 @@ const App = () => {
       });
   };
 
+  const [loaderResult, setLoaderResult] = useState({ status: '', result: {} })
+  useEffect(() => {
+    console.log(loaderResult)
+  }, [loaderResult])
+
   // TODO: REQUESTS NOT UPDATED ON MULTIPLE POSTS, CAUSING DUPLICATE IDs
   const postBooking = ({ price, terminalName, craneNumber, lighterName, lighterId, lighterCompany, arrivedDate, arrivedTime, mothership, callSign, imoNumber, anchorage, lat, lng, totalPallets, loadTime, completed, completedTime, destinations }) => {
+    setLoading(true);
+    setLoaderResult({ status: 'Processing' })
     let currentBookingIds = bookings.map(booking => booking.id);
     let bookingIdToBeAdded = 0;
     while (currentBookingIds.includes(bookingIdToBeAdded)) {
@@ -276,6 +282,19 @@ const App = () => {
       completed: completed,
       completedTime: completedTime,
       destinations: destinations
+    }).then(response => {
+      if(response.data.success === true) {
+        // DONT NEED RESULT... MAYBE
+        setLoaderResult({ status: 'Confirmed', result: response.data.booking })
+      } else {
+        setLoaderResult({ status: 'Failed', result: response.data.error })
+      }
+      console.log(response)
+      setLoading(false)
+    }).catch(error => {
+      console.log(error)
+      setLoaderResult({ status: "Error", result: error })
+      setLoading(false)
     });
   };
 
@@ -405,6 +424,7 @@ const App = () => {
               searchResults={searchResults} setSearchResults={setSearchResults}
               searchValue={searchValue} setSearchValue={setSearchValue}
               loading={loading} setLoading={setLoading}
+              loaderResult={loaderResult} setLoaderResult={setLoaderResult}
               setSelectedDelivery={setSelectedDelivery}
               hoverDelivery={hoverDelivery}
               hoveredDelivery={hoveredDelivery}
@@ -431,6 +451,7 @@ const App = () => {
               searchResults={searchResults} setSearchResults={setSearchResults}
               searchValue={searchValue} setSearchValue={setSearchValue}
               loading={loading} setLoading={setLoading}
+              loaderResult={loaderResult} setLoaderResult={setLoaderResult}
               setSelectedDelivery={setSelectedDelivery}
               hoverDelivery={hoverDelivery}
               hoveredDelivery={hoveredDelivery}
