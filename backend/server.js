@@ -117,7 +117,7 @@ router.delete("/deleteBooking", (req, res) => {
 router.post("/postBooking", (req, res) => {
   let booking = new Booking();
 
-  const { id, price, terminalName, craneNumber, lighterName, lighterId, lighterCompany, arrivedDate, arrivedTime, anchorage, totalPallets, loadTime, completed, completedTime, destinations } = req.body;
+  const { id, user, price, terminalName, craneNumber, lighterName, lighterId, lighterCompany, arrivedDate, arrivedTime, anchorage, totalPallets, loadTime, completed, completedTime, destinations } = req.body;
 
   // TODO: VALIDATION
   /*if ((!id && id !== 0) || !message) {
@@ -127,6 +127,7 @@ router.post("/postBooking", (req, res) => {
     });
   }*/
   booking.id = id;
+  booking.user = user;
   booking.price = price;
   booking.terminalName = terminalName;
   booking.craneNumber = craneNumber;
