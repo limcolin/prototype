@@ -2,7 +2,6 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const mongoose = require("mongoose");
 const express = require("express");
 const path = require('path')
-
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Request = require("./request");
@@ -10,6 +9,8 @@ const Booking = require("./booking");
 const Delivery = require("./delivery");
 const Anchorage = require("./anchorage");
 const Arrival = require("./arrival");
+const User = require("./user");
+const Role = require("./role");
 const seedData = require("./data/seedData");
 const seedAnchorages = require("./data/seedAnchorages");
 const https = require('https');
@@ -19,16 +20,22 @@ const PORT = process.env.PORT || 3001
 const app = express();
 const router = express.Router();
 
-mongoose.connect(process.env.DB_URI);
+mongoose.connect(process.env.DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 let db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //app.use(logger("dev"));
 
 app.use(express.static(path.join(__dirname, '../client/build')));
+
+require('./routes/auth')(app);
+require('./routes/user')(app);
 
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname+'../client/build/index.html'));
