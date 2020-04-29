@@ -58,16 +58,24 @@ const BookingsOverview = ({
         <Link to='/bookings' style={{ fontSize: '14px', color: 'grey', float: 'right', textDecoration: 'underline' }}>See All</Link>
         <Header.Subheader> </Header.Subheader>
       </Header>
-      {bookings.map(booking => {
-        return (
-          <Booking
-            key={booking.id}
-            arrivals={arrivals}
-            booking={booking}
-            hoverBooking={hoverBooking}
-          />
-        )
-      })}
+      {bookings.length !== 0 &&
+        bookings.map(booking => {
+          return (
+            <Booking
+              key={booking.id}
+              arrivals={arrivals}
+              booking={booking}
+              hoverBooking={hoverBooking}
+            />
+          )
+        })
+      }
+      {bookings.length === 0 &&
+        <>
+        <h2>You have no current bookings</h2>
+        <Link to='/bookings'>Start a new booking</Link>
+        </>
+      }
       <Header as='h4' dividing size='medium' style={{ fontWeight: 700 }}>
         Current Arrivals
         <Header.Subheader> </Header.Subheader>

@@ -2,15 +2,20 @@ import React, { useState, useEffect, useReducer } from "react";
 import axios from "axios";
 import 'semantic-ui-css/semantic.min.css';
 import { Header } from 'semantic-ui-react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import OverviewPage from './components/OverviewPage'
 import ArrivalsPage from './components/ArrivalsPage'
 import BookingsPage from './components/BookingsPage'
 import BookingForm from './components/BookingForm'
+import Login from './components/Login'
+import Register from './components/Register'
+import Profile from './components/Profile'
 import Topbar from './components/Topbar'
 import SideMenu from './components/SideMenu'
 import _ from 'lodash'
 import useDebounce from './utils/useDebounce'
+import AuthService from "./utils/authService";
+import UserService from "./utils/userService";
 
 // TODO: CHECK STATE BEFORE RENDERING FOR ALL COMPONENTS
 
@@ -74,7 +79,15 @@ function reducer(state, action) {
 
 const App = () => {
 
+  const [currentUser, setCurrentUser] = useState(undefined)
+
   useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(AuthService.getCurrentUser())
+    }
+
     getDeliveries();
     getBookings();
     getAnchorages();
@@ -83,8 +96,7 @@ const App = () => {
 
     // TODO: USE SOCKET CONNECTION TO NOTIFY WHEN MESSAGES ARRIVE
     const interval = setInterval(() => {
-      //getDataFromDb();
-      //getBookings();
+      getBookings();
       getArrivals()
     }, 10000);
 
@@ -94,6 +106,10 @@ const App = () => {
         console.log("CLEAR INTERVAL");
     };
   }, []);
+
+  const logout = () => {
+    AuthService.logout();
+  }
 
   const [loading, setLoading] = useState(false);
   const [bookings, setBookings] = useState([]);
@@ -245,11 +261,17 @@ const App = () => {
   };
 
   const getBookings = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/getBookings`)
+    UserService.getUserBookings()
+      .then(res => {console.log(res)
+        if(res.data.success === true) {
+          setBookings(res.data.data)
+        }
+      })
+    /*fetch(`${process.env.REACT_APP_API_URL}/getBookings`)
       .then(data => data.json())
       .then(res => {
         setBookings(res.data)
-      });
+      });*/
   };
 
   const [loaderResult, setLoaderResult] = useState({ status: '', result: {} })
@@ -269,6 +291,7 @@ const App = () => {
 
     axios.post(`${process.env.REACT_APP_API_URL}/postBooking`, {
       id: bookingIdToBeAdded,
+      user: currentUser.id,
       price: price,
       terminalName: terminalName,
       craneNumber: craneNumber,
@@ -404,67 +427,82 @@ const App = () => {
 
   return (
     <div className="mainWrapper" style={{ display: 'flex' }}>
-      <Topbar />
-      <div className="sidebarWrapper" style={{ width: '90px' }}>
-        <SideMenu />
-      </div>
-      <div className="contentWrapper" style={{ width: "calc(100% - 90px)", marginTop: '70px', background: '#f8f9fd' }}>
-        <Switch>
-          <Route path="/bookings">
-            <BookingsPage
-              editBooking={editBooking}
-              updateBooking={updateBooking}
-              saveUpdate={saveUpdate}
-              bookingFilter={bookingFilter} setBookingFilter={setBookingFilter}
-              bookings={filteredBookings}
-              hoverBooking={hoverBooking}
-              hoveredBooking={hoveredBooking}
-              anchorages={anchorages}
-              arrivals={arrivals}
-              searchResults={searchResults} setSearchResults={setSearchResults}
-              searchValue={searchValue} setSearchValue={setSearchValue}
-              loading={loading} setLoading={setLoading}
-              loaderResult={loaderResult} setLoaderResult={setLoaderResult}
-              setSelectedDelivery={setSelectedDelivery}
-              hoverDelivery={hoverDelivery}
-              hoveredDelivery={hoveredDelivery}
-              step={step} setStep={setStep}
-              deliveries={deliveries}
-              newBooking={newBooking} dispatch={dispatch}
-              postBooking={postBooking}
-              searchVessel={searchVessel}
-              vesselData={vesselData} setVesselData={setVesselData}
-            />
-          </Route>
-          <Route path="/arrivals">
-            <ArrivalsPage
-              arrivals={arrivals} allArrivals={allArrivals}
-            />
-          </Route>
-          <Route path="/">
-            <OverviewPage
-              arrivals={arrivals}
-              bookings={bookings.slice(0, 2)}
-              hoverBooking={hoverBooking}
-              hoveredBooking={hoveredBooking} setHoveredBooking={setHoveredBooking}
-              anchorages={anchorages}
-              searchResults={searchResults} setSearchResults={setSearchResults}
-              searchValue={searchValue} setSearchValue={setSearchValue}
-              loading={loading} setLoading={setLoading}
-              loaderResult={loaderResult} setLoaderResult={setLoaderResult}
-              setSelectedDelivery={setSelectedDelivery}
-              hoverDelivery={hoverDelivery}
-              hoveredDelivery={hoveredDelivery}
-              step={step} setStep={setStep}
-              deliveries={deliveries}
-              newBooking={newBooking} dispatch={dispatch}
-              postBooking={postBooking}
-              searchVessel={searchVessel}
-              vesselData={vesselData} setVesselData={setVesselData}
-            />
-          </Route>
-        </Switch>
-      </div>
+      <Topbar currentUser={currentUser} logout={logout} />
+      {currentUser ? (
+        <>
+          <div className="sidebarWrapper" style={{ width: '90px' }}>
+            <SideMenu />
+          </div>
+          <div className="contentWrapper" style={{ width: "calc(100% - 90px)", marginTop: '70px', background: '#f8f9fd' }}>
+            <Switch>
+              <Route exact path="/login"><Redirect to={{ pathname: "/" }} /></Route>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/profile" component={Profile} />
+              <Route path="/bookings">
+                <BookingsPage
+                  editBooking={editBooking}
+                  updateBooking={updateBooking}
+                  saveUpdate={saveUpdate}
+                  bookingFilter={bookingFilter} setBookingFilter={setBookingFilter}
+                  bookings={filteredBookings}
+                  hoverBooking={hoverBooking}
+                  hoveredBooking={hoveredBooking}
+                  anchorages={anchorages}
+                  arrivals={arrivals}
+                  searchResults={searchResults} setSearchResults={setSearchResults}
+                  searchValue={searchValue} setSearchValue={setSearchValue}
+                  loading={loading} setLoading={setLoading}
+                  loaderResult={loaderResult} setLoaderResult={setLoaderResult}
+                  setSelectedDelivery={setSelectedDelivery}
+                  hoverDelivery={hoverDelivery}
+                  hoveredDelivery={hoveredDelivery}
+                  step={step} setStep={setStep}
+                  deliveries={deliveries}
+                  newBooking={newBooking} dispatch={dispatch}
+                  postBooking={postBooking}
+                  searchVessel={searchVessel}
+                  vesselData={vesselData} setVesselData={setVesselData}
+                />
+              </Route>
+              <Route path="/arrivals">
+                <ArrivalsPage
+                  arrivals={arrivals} allArrivals={allArrivals}
+                />
+              </Route>
+              <Route path="/">
+                <OverviewPage
+                  arrivals={arrivals}
+                  bookings={bookings.slice(0, 2)}
+                  hoverBooking={hoverBooking}
+                  hoveredBooking={hoveredBooking} setHoveredBooking={setHoveredBooking}
+                  anchorages={anchorages}
+                  searchResults={searchResults} setSearchResults={setSearchResults}
+                  searchValue={searchValue} setSearchValue={setSearchValue}
+                  loading={loading} setLoading={setLoading}
+                  loaderResult={loaderResult} setLoaderResult={setLoaderResult}
+                  setSelectedDelivery={setSelectedDelivery}
+                  hoverDelivery={hoverDelivery}
+                  hoveredDelivery={hoveredDelivery}
+                  step={step} setStep={setStep}
+                  deliveries={deliveries}
+                  newBooking={newBooking} dispatch={dispatch}
+                  postBooking={postBooking}
+                  searchVessel={searchVessel}
+                  vesselData={vesselData} setVesselData={setVesselData}
+                />
+              </Route>
+            </Switch>
+          </div>
+        </>
+      ) : (
+        <div className="contentWrapper" style={{ width: "calc(100% - 90px)", marginTop: '70px', background: '#f8f9fd' }}>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route path="/"><Redirect to={{ pathname: "/login" }} /></Route>
+          </Switch>
+        </div>
+      )}
     </div>
   );
 }

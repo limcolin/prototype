@@ -1,9 +1,10 @@
 import React from "react";
 import 'semantic-ui-css/semantic.min.css';
-import { Menu, Label, Image, Icon } from 'semantic-ui-react';
+import { Menu, Label, Image, Icon, Dropdown, Button } from 'semantic-ui-react';
 import GoogleFontLoader from 'react-google-font-loader';
+import { Link } from "react-router-dom";
 
-const Topbar = () => {
+const Topbar = ({ currentUser, logout }) => {
   return (
     <>
       <GoogleFontLoader
@@ -42,9 +43,43 @@ const Topbar = () => {
           </Menu.Item>
           <Menu.Item style={{ fontWeight: 700 }} name="help">Help</Menu.Item>
           <Menu.Item style={{ fontWeight: 700 }} name="/">|</Menu.Item>
-          <Menu.Item style={{ fontWeight: 700 }} name="account">
-            <Image src='https://react.semantic-ui.com/images/avatar/small/matthew.png' avatar />
-          </Menu.Item>
+
+          {currentUser ? (
+            <>
+              <Menu.Item style={{ fontWeight: 700 }} name="account">
+                <Image src='https://react.semantic-ui.com/images/avatar/small/matthew.png' avatar />
+                {currentUser.username}
+                <Dropdown>
+                  <Dropdown.Menu style={{ background: '#324354' }}>
+                    <Dropdown.Item name="profile" content="Profile">
+                      <Link to={"/profile"}>
+                        Profile
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item name="logout" content="Logout">
+                      <a href="/login" className="nav-link" onClick={logout}>
+                        Logout
+                      </a>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Menu.Item>
+            </>
+          ) : (
+            <>
+              <Menu.Item name="login">
+                <Link to={"/login"}>
+                  Login
+                </Link>
+              </Menu.Item>
+
+              <Menu.Item name="register">
+                <Button style={{ background: '#FA5959', color: 'white' }} as={Link} to={"/register"}>
+                  Sign Up
+                </Button>
+              </Menu.Item>
+            </>
+          )}
         </Menu.Menu>
       </Menu>
     </>

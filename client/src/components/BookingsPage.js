@@ -84,9 +84,14 @@ const BookingsPage = ({
               </Menu>
             </div>
             <div className="bookingsInnerRight" style={{ paddingLeft: '60px', width: 'calc(100% - 250px)'}}>
-              {bookings.map(booking => {
-                return <Booking arrivals={arrivals} key={booking.id} booking={booking} editBooking={editBooking} updateBooking={updateBooking} saveUpdate={saveUpdate} hoverBooking={hoverBooking} />
-              })}
+              {bookings.length !== 0 &&
+                bookings.map(booking => {
+                  return <Booking arrivals={arrivals} key={booking.id} booking={booking} editBooking={editBooking} updateBooking={updateBooking} saveUpdate={saveUpdate} hoverBooking={hoverBooking} />
+                })
+              }
+              {bookings.length === 0 &&
+                <h2>You have no current bookings</h2>
+              }
             </div>
           </div>
         </div>
