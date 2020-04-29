@@ -1,8 +1,8 @@
-const authJwt = require("./middleware/authJwt");
-const controller = require("./controllers/user");
+const authJwt = require("../middleware/authJwt");
+const controller = require("../controllers/user");
 const express = require("express");
 const router = express.Router();
-const Booking = require("./booking");
+const Booking = require("../booking");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
