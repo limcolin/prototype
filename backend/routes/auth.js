@@ -1,4 +1,4 @@
-const verifySignUp = require("../middleware/verifySignUp")
+const verifySignup = require("../middleware/verifySignup")
 const controller = require("../controllers/auth");
 const express = require("express");
 const router = express.Router();
@@ -15,8 +15,8 @@ module.exports = function(app) {
   router.post(
     "/signup",
     [
-      verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted
+      verifySignup.checkDuplicateUsernameOrEmail,
+      verifySignup.checkRolesExisted
     ],
     controller.signup
   );
