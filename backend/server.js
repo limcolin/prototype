@@ -20,6 +20,11 @@ const PORT = process.env.PORT || 3001
 const app = express();
 const router = express.Router();
 
+const verifySignUp = require("./middleware/verifySignUp")
+const authController = require("./controllers/auth");
+const authJwt = require("./middleware/authJwt");
+const userController = require("./controllers/user");
+
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -34,8 +39,49 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-require('./routes/auth')(app);
-require('./routes/user')(app);
+app.use(function(req, res, next) {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
+router.post(
+  "/auth/signup",
+  [
+    verifySignUp.checkDuplicateUsernameOrEmail,
+    verifySignUp.checkRolesExisted
+  ],
+  authController.signup
+);
+router.post("/auth/signin", authController.signin);
+router.get("/user/test/all", userController.allAccess);
+
+router.get("/user/test/user", [authJwt.verifyToken], userController.userBoard);
+
+router.get(
+  "/user/test/mod",
+  [authJwt.verifyToken, authJwt.isModerator],
+  userController.moderatorBoard
+);
+
+router.get(
+  "/user/test/admin",
+  [authJwt.verifyToken, authJwt.isAdmin],
+  userController.adminBoard
+);
+
+router.get(
+  "/user/bookings",
+  [authJwt.verifyToken],
+  (req, res) => {
+    console.log(res.locals.userId)
+    Booking.find({ user: res.locals.userId }, (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true, data: data });
+    });
+  }
+);
 
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname+'../client/build/index.html'));
