@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { Icon } from 'semantic-ui-react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline, Polygon } from 'google-maps-react';
 
-const MapContainer = ({ google, deliveries, hoveredDelivery, newBooking, anchorages }) => {
+const MapContainer = ({ gapikey, google, deliveries, hoveredDelivery, newBooking, anchorages }) => {
 
   const style = {
     width: '100%',
@@ -152,6 +152,8 @@ const MapContainer = ({ google, deliveries, hoveredDelivery, newBooking, anchora
   );
 }
 
-export default GoogleApiWrapper({
-  apiKey: ('AIzaSyB-xYsUdjcOYY3vl--N717-9PZBbI5xwy4')
-})(MapContainer)
+export default GoogleApiWrapper(
+  (props) => ({
+    apiKey: (props.gapikey)
+  }
+))(MapContainer)

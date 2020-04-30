@@ -57,7 +57,7 @@ const Topbar = ({ currentUser, logout }) => {
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item name="logout" content="Logout">
-                      <a href="/login" className="nav-link" onClick={logout}>
+                      <a href="/login" onClick={logout}>
                         Logout
                       </a>
                     </Dropdown.Item>

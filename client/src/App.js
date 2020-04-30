@@ -174,7 +174,7 @@ const App = () => {
       }
     });
 
-    axios.delete(`${process.env.REACT_APP_API_URL}/deleteBooking`, {
+    axios.delete(`/api/deleteBooking`, {
       data: {
         id: objIdToDelete
       }
@@ -192,7 +192,7 @@ const App = () => {
         }
       });
 
-      axios.post(`${process.env.REACT_APP_API_URL}/updateBooking`, {
+      axios.post(`/api/updateBooking`, {
         id: objIdToUpdate,
         update: newBooking
       }).then(res => {
@@ -237,7 +237,7 @@ const App = () => {
   }, [selectedDelivery, deliveries])
 
   const getDeliveries = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/getDeliveries`)
+    fetch(`/api/getDeliveries`)
       .then(data => data.json())
       .then(res => {
         setDeliveries(res.data)
@@ -245,7 +245,7 @@ const App = () => {
   };
 
   const getArrivals = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/getArrivals`)
+    fetch(`/api/getArrivals`)
       .then(data => data.json())
       .then(res => {
         setArrivals(res.data)
@@ -253,7 +253,7 @@ const App = () => {
   };
 
   const getAllArrivals = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/getAllArrivals`)
+    fetch(`/api/getAllArrivals`)
       .then(data => data.json())
       .then(res => {
         setAllArrivals(res.data)
@@ -267,7 +267,7 @@ const App = () => {
           setBookings(res.data.data)
         }
       })
-    /*fetch(`${process.env.REACT_APP_API_URL}/getBookings`)
+    /*fetch(`/api/getBookings`)
       .then(data => data.json())
       .then(res => {
         setBookings(res.data)
@@ -289,7 +289,7 @@ const App = () => {
       ++bookingIdToBeAdded;
     }
 
-    axios.post(`${process.env.REACT_APP_API_URL}/postBooking`, {
+    axios.post(`/api/postBooking`, {
       id: bookingIdToBeAdded,
       user: currentUser.id,
       price: price,
@@ -348,7 +348,7 @@ const App = () => {
     const foundVessels = await res.data.results;
     setVessels(foundVessels);
     setLoading(false);*/
-    fetch(`${process.env.REACT_APP_API_URL}/getVessels`)
+    fetch(`/api/getVessels`)
       .then(data => data.json())
       .then(res => {
 
@@ -357,7 +357,7 @@ const App = () => {
 
   const [anchorages, setAnchorages] = useState([])
   const getAnchorages = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/getAnchorages`)
+    fetch(`/api/getAnchorages`)
       .then(data => data.json())
       .then(res => {
         if(res.success) {
@@ -371,7 +371,7 @@ const App = () => {
   const [searchResults, setSearchResults] = useState([])
   const [vesselData, setVesselData] = useState([])
   const searchVessel = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/searchVessel/${debouncedSearchValue}`)
+    fetch(`/api/searchVessel/${debouncedSearchValue}`)
       .then(response => response.json())
       .then(res => {
         if(res.success) {
@@ -440,6 +440,7 @@ const App = () => {
               <Route exact path="/profile" component={Profile} />
               <Route path="/bookings">
                 <BookingsPage
+                  gapikey={currentUser.gapikey}
                   editBooking={editBooking}
                   updateBooking={updateBooking}
                   saveUpdate={saveUpdate}
@@ -471,6 +472,7 @@ const App = () => {
               </Route>
               <Route path="/">
                 <OverviewPage
+                  gapikey={currentUser.gapikey}
                   arrivals={arrivals}
                   bookings={bookings.slice(0, 2)}
                   hoverBooking={hoverBooking}

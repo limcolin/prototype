@@ -5,6 +5,7 @@ import NewBookingStep1 from './NewBookingStep1'
 import NewBookingStep2 from './NewBookingStep2'
 
 const BookingForm = ({
+  gapikey,
   arrivals,
   searchResults, setSearchResults,
   searchValue, setSearchValue,
@@ -53,7 +54,7 @@ const BookingForm = ({
       case 1:
         return <NewBookingStep1 setStep={setStep} searchResults={searchResults} setSearchResults={setSearchResults} searchValue={searchValue} setSearchValue={setSearchValue} loading={loading} setLoading={setLoading} dispatch={dispatch} searchVessel={searchVessel} vesselData={vesselData} setVesselData={setVesselData} anchorageOptions={anchorageOptions} newBooking={newBooking} />
       case 2:
-        return <NewBookingStep2 loaderResult={loaderResult} loading={loading} dispatch={dispatch} arrivals={arrivals} postBooking={postBooking} setStep={setStep} anchorages={anchorages} setSelectedDelivery={setSelectedDelivery} deliveries={deliveries} hoverDelivery={hoverDelivery} hoveredDelivery={hoveredDelivery} newBooking={newBooking} />
+        return <NewBookingStep2 gapikey={gapikey} loaderResult={loaderResult} loading={loading} dispatch={dispatch} arrivals={arrivals} postBooking={postBooking} setStep={setStep} anchorages={anchorages} setSelectedDelivery={setSelectedDelivery} deliveries={deliveries} hoverDelivery={hoverDelivery} hoveredDelivery={hoveredDelivery} newBooking={newBooking} />
       case 3:
         return <Form.Field control={Button} content="Submit" />
       default:

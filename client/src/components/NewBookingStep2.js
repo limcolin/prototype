@@ -5,6 +5,7 @@ import MapContainer from './MapContainer';
 import Arrival from './Arrival'
 
 const NewBookingStep2 = ({
+  gapikey,
   dispatch,
   arrivals,
   postBooking,
@@ -56,7 +57,7 @@ const NewBookingStep2 = ({
       return (
         <>
           <Tab.Pane style={{ padding: 0, marginBottom: 0 }}>
-            <MapContainer newBooking={newBooking} deliveries={deliveries} hoveredDelivery={hoveredDelivery} anchorages={anchorages} />
+            <MapContainer gapikey={gapikey} newBooking={newBooking} deliveries={deliveries} hoveredDelivery={hoveredDelivery} anchorages={anchorages} />
             <Card.Group style={{ padding: '10px', margin: 0, background: '#fcfcfc' }} itemsPerRow={1}>
               <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}><h4>Available Crafts</h4><a style={{ float: 'right' }}>View All</a></div>
               {

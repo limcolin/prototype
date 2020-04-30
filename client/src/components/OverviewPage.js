@@ -7,6 +7,7 @@ import Destination from './Destination'
 import ArrivalsTable from './ArrivalsTable'
 
 const OverviewPage = ({
+  gapikey,
   arrivals,
   bookings,
   hoverBooking,
@@ -35,8 +36,9 @@ const OverviewPage = ({
     <>
       <div className="contentInnerWrapper" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', alignItems: 'stretch' }}>
         <div className="contentInnerLeft" style={{ flexGrow: 1, flexShrink: 0, flexBasis: '960px', maxWidth: '1280px', borderRight: '1px solid rgba(34,36,38,.15)' }}>
-          <MapContainerOverview bookings={bookings} hoveredBooking={hoveredBooking} anchorages={anchorages} />
+          <MapContainerOverview gapikey={gapikey} bookings={bookings} hoveredBooking={hoveredBooking} anchorages={anchorages} />
           <BookingsOverview
+            gapikey={gapikey}
             arrivals={arrivals}
             bookings={bookings}
             hoverBooking={hoverBooking}

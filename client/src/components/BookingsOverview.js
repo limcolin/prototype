@@ -8,6 +8,7 @@ import BookingForm from './BookingForm'
 import ArrivalsTable from './ArrivalsTable'
 
 const BookingsOverview = ({
+  gapikey,
   arrivals,
   bookings,
   hoverBooking,
@@ -36,6 +37,7 @@ const BookingsOverview = ({
     <div style={{ padding: '40px', background: 'white' }}>
       <div style={{ textAlign: 'right'}}>
         <BookingForm
+          gapikey={gapikey}
           arrivals={arrivals}
           searchResults={searchResults} setSearchResults={setSearchResults}
           searchValue={searchValue} setSearchValue={setSearchValue}

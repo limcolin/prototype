@@ -6,6 +6,7 @@ import Destination from './Destination'
 import BookingForm from './BookingForm'
 
 const BookingsPage = ({
+  gapikey,
   arrivals,
   anchorages,
   bookings,
@@ -44,6 +45,7 @@ const BookingsPage = ({
             Requests
             <div style={{ float: 'right'}}>
               <BookingForm
+                gapikey={gapikey}
                 arrivals={arrivals}
                 searchResults={searchResults} setSearchResults={setSearchResults}
                 searchValue={searchValue} setSearchValue={setSearchValue}
