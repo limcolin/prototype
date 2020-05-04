@@ -111,6 +111,9 @@ const App = () => {
     AuthService.logout();
   }
 
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false);
   const [bookings, setBookings] = useState([]);
   const [arrivals, setArrivals] = useState([]);
@@ -499,7 +502,16 @@ const App = () => {
       ) : (
         <div className="contentWrapper" style={{ width: "calc(100% - 90px)", marginTop: '70px', background: '#f8f9fd' }}>
           <Switch>
-            <Route exact path="/login" component={Login} />
+            <Route exact path="/login" render={() =>
+              <Login
+                username={username} setUsername={setUsername}
+                password={password} setPassword={setPassword}
+                message={message} setMessage={setMessage}
+                loading={loading} setLoading={setLoading}
+                setCurrentUser={setCurrentUser}
+              />
+            } />
+
             <Route exact path="/register" component={Register} />
             <Route path="/"><Redirect to={{ pathname: "/login" }} /></Route>
           </Switch>
