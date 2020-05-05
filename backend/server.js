@@ -18,7 +18,8 @@ const axios = require('axios');
 
 const PORT = process.env.PORT || 3001
 const app = express();
-const router = express.Router();
+const apiRouter = express.Router()
+const clientRouter = express.Router()
 
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
@@ -37,18 +38,14 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 require('./routes/auth')(app);
 require('./routes/user')(app);
 
-router.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname+'../client/build/index.html'));
-});
-
-router.get("/getDeliveries", (req, res) => {
+apiRouter.get("/getDeliveries", (req, res) => {
   Delivery.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
-router.get("/getArrivals", (req, res) => {
+apiRouter.get("/getArrivals", (req, res) => {
     axios.all([getMswArrivals(), getPltArrivals()])
     .then(axios.spread((mswArrivals, pltArrivals) => {
       const mswArrivalsData = mswArrivals.data.map(mswArrival => {
@@ -70,20 +67,20 @@ router.get("/getArrivals", (req, res) => {
       return res.json({ success: false, error: error });
     });
 });
-router.get("/getAllArrivals", (req, res) => {
+apiRouter.get("/getAllArrivals", (req, res) => {
   Arrival.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
-router.get("/getBookings", (req, res) => {
+apiRouter.get("/getBookings", (req, res) => {
   Booking.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
-router.post("/updateBooking", (req, res) => {
+apiRouter.post("/updateBooking", (req, res) => {
   const { id, update } = req.body;
   Booking.findByIdAndUpdate(id, update, (err, result) => {
     if (err) return res.json({ success: false, error: err });
@@ -91,14 +88,14 @@ router.post("/updateBooking", (req, res) => {
   });
 });
 
-router.get("/getAnchorages", (req, res) => {
+apiRouter.get("/getAnchorages", (req, res) => {
   Anchorage.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
-router.post("/updateRequest", (req, res) => {
+apiRouter.post("/updateRequest", (req, res) => {
   const { id, update } = req.body;
   Request.findByIdAndUpdate(id, update, (err, result) => {
     if (err) return res.json({ success: false, error: err });
@@ -106,7 +103,7 @@ router.post("/updateRequest", (req, res) => {
   });
 });
 
-router.delete("/deleteBooking", (req, res) => {
+apiRouter.delete("/deleteBooking", (req, res) => {
   const { id } = req.body;
   Booking.findByIdAndRemove(id, err => {
     if (err) return res.send(err);
@@ -114,7 +111,7 @@ router.delete("/deleteBooking", (req, res) => {
   });
 });
 
-router.post("/postBooking", (req, res) => {
+apiRouter.post("/postBooking", (req, res) => {
   let booking = new Booking();
 
   const { id, user, price, terminalName, craneNumber, lighterName, lighterId, lighterCompany, arrivedDate, arrivedTime, anchorage, totalPallets, loadTime, completed, completedTime, destinations } = req.body;
@@ -147,7 +144,7 @@ router.post("/postBooking", (req, res) => {
   });
 });
 
-router.get("/getVessels", (req, res) => {
+apiRouter.get("/getVessels", (req, res) => {
   const path = encodeURI('/v1/vessel/duetodepart/date/2020-03-31 10:46:00/hours/1');
   const options = {
     host: 'sg-mdh-api.mpa.gov.sg',
@@ -220,7 +217,7 @@ function getVesselMovements(name) {
   }
   return axios(options);
 }
-router.get("/searchVessel/:name", (req, res) => {
+apiRouter.get("/searchVessel/:name", (req, res) => {
   const { name } = req.params;
   getVesselParticulars(name).then(response => {
     return res.json({ success: true, data: response.data })
@@ -239,44 +236,44 @@ router.get("/searchVessel/:name", (req, res) => {
 });
 
 // ADMIN ROUTES
-router.get("/dropArrivals", (req, res) => {
+apiRouter.get("/dropArrivals", (req, res) => {
   Arrival.deleteMany({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 // NOT NEEDED AND SEEDING INCORRECT DATA ANYWAY
-router.get("/dropBookings", (req, res) => {
+apiRouter.get("/dropBookings", (req, res) => {
   Booking.deleteMany({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
-router.get("/seedBookings", (req, res) => {
+apiRouter.get("/seedBookings", (req, res) => {
   Booking.insertMany(seedData, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   })
 });
-router.get("/dropDeliveries", (req, res) => {
+apiRouter.get("/dropDeliveries", (req, res) => {
   Delivery.deleteMany({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
-router.get("/seedDeliveries", (req, res) => {
+apiRouter.get("/seedDeliveries", (req, res) => {
   Delivery.insertMany(seedData, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   })
 });
-router.get("/dropAnchorages", (req, res) => {
+apiRouter.get("/dropAnchorages", (req, res) => {
   Anchorage.deleteMany({}, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
-router.get("/seedAnchorages", (req, res) => {
+apiRouter.get("/seedAnchorages", (req, res) => {
   Anchorage.insertMany(seedAnchorages, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
@@ -359,6 +356,10 @@ if (process.env.NODE_ENV == 'production') {
   }, 30000);
 }
 
-app.use("/api", router);
+clientRouter.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+app.use("/api", apiRouter);
+app.use("/", clientRouter);
 
 app.listen(PORT, () => console.log(`LISTENING ON PORT ${PORT}`));
